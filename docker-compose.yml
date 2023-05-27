@@ -1,0 +1,21 @@
+version: '3'
+services:
+  backend:
+    image: backend
+    environment:
+      - DATABASE_URI=${DATABASE_URI}
+      - PORT=${PORT}
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+  frontend:
+    image: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
