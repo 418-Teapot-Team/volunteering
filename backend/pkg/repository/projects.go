@@ -34,3 +34,15 @@ func (db *dbSQL) GetProjects(userId int) (projects []volunteering.Project, err e
 	return projects, nil
 
 }
+
+func (db *dbSQL) DeleteTaskProject(userId int, taskId int) (err error) {
+	tx := db.db.Begin()
+
+	err = tx.Where("id = ?", taskId).Where("user_id = ?", userId).Delete(&volunteering.Task{}).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
+}

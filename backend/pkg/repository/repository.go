@@ -18,11 +18,13 @@ type Repository interface {
 	CreateProject(input *volunteering.Project) (err error)
 	DeleteProject(listId, userId int) (err error)
 	GetProjects(userId int) (projects []volunteering.Project, err error)
+	DeleteTaskProject(userId int, taskId int) (err error)
 
 	// Tasks
 	CreateTask(input *volunteering.Task) (err error)
 	DeleteTask(taskId, userId int) (err error)
-	GetUserTasks(userId int) (tasks []volunteering.TasksDB, err error)
+	GetTasks(userId int) (tasks []volunteering.TasksDB, err error)
+	GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 }
 
 type dbSQL struct {

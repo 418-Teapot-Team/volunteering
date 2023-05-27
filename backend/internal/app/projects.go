@@ -69,7 +69,7 @@ func (h *Handler) getProjects(c *gin.Context) {
 		return
 	}
 
-	projects, err := h.rep.GetProjects(userId)
+	projects, err := h.rep.GetTasks(userId)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -79,4 +79,31 @@ func (h *Handler) getProjects(c *gin.Context) {
 		"result": projects,
 	})
 
+}
+
+func (h *Handler) deleteProjectTask(c *gin.Context) {
+	var input struct {
+		Id int `json:"id"`
+	}
+
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if err = c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.rep.DeleteTaskProject(userId, input.Id)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": "Success",
+	})
 }
