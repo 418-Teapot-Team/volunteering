@@ -7,7 +7,7 @@ import (
 func StartServer(app *Handler, port string) {
 
 	router := gin.Default()
-
+	router.Use(CORSMiddleware())
 	auth := router.Group("/auth/v1")
 	auth.Use(CORSMiddleware())
 	{
