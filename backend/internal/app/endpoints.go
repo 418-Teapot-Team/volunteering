@@ -30,6 +30,8 @@ func StartServer(app *Handler, port string) {
 		api.POST("/tasks", app.createTask)
 		api.DELETE("/tasks", app.deleteTask)
 
+		api.POST("tasks/share", app.shareTask)
+
 		api.POST("/done-volunteer", app.markAsDoneVolunteer)
 		api.POST("/done-employer", app.markAsDoneEmployer)
 
