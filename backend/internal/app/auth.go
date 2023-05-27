@@ -1,0 +1,72 @@
+package app
+
+import (
+	"crypto/sha1"
+	"errors"
+	"fmt"
+	"github.com/BoryslavGlov/logrusx"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"time"
+	"volunteering"
+	"volunteering/pkg/repository"
+)
+
+type signInInput struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (h *Handler) signUp(c *gin.Context) {
+	var input volunteering.User
+
+	h.logg.Info("User trying to sign-in", logrusx.LogField{Key: "request", Value: fmt.Sprintf("%+v", c.Request)})
+
+	if err := c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	input.Password = generatePasswordHash(input.Password)
+	input.CreatedAt = time.Now()
+	input.LastLogin = time.Now()
+
+	err := h.rep.CreateUser(&input)
+	if err != nil {
+		if errors.Is(err, repository.UniqueViolationError) {
+			h.newErrorResponse(c, http.StatusConflict, "user is already exists")
+			return
+		}
+		h.newErrorResponse(c, http.StatusInternalServerError, "something gone wrong while trying create user")
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success",
+	})
+}
+
+func (h *Handler) signIn(c *gin.Context) {
+	var input signInInput
+
+	if err := c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, "invalid input body")
+		return
+	}
+
+	token, err := h.GenerateToken(input.Email, input.Password)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"token": token,
+	})
+}
+
+func generatePasswordHash(password string) string {
+	hash := sha1.New()
+	hash.Write([]byte(password))
+
+	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
+}
