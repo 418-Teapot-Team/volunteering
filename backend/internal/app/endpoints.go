@@ -13,6 +13,12 @@ func StartServer(app *Handler, port string) {
 	{
 		auth.POST("/sign-up", app.signUp)
 		auth.POST("/sign-in", app.signIn)
+
+	}
+
+	api := router.Group("/api/v1", app.authMiddleware)
+	{
+		api.GET("/who-am-i", app.whoAmI)
 	}
 
 	router.Run(":" + port)

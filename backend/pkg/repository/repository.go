@@ -9,6 +9,8 @@ import (
 type Repository interface {
 	CreateUser(user *volunteering.User) (err error)
 	GetUserAuth(email, password string) (user volunteering.User, err error)
+	GetUserById(userId int) (user volunteering.User, err error)
+
 	UpdateLastLogin(userId int) error
 }
 
@@ -46,4 +48,12 @@ func (db *dbSQL) GetUserAuth(email, password string) (user volunteering.User, er
 
 func (db *dbSQL) UpdateLastLogin(userId int) error {
 	return db.db.Model(&volunteering.User{}).Where("id = ?", userId).Update("last_login", time.Now()).Error
+}
+
+func (db *dbSQL) GetUserById(userId int) (user volunteering.User, err error) {
+	err = db.db.Where("id = ?", userId).Find(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
 }
