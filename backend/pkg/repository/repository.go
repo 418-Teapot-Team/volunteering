@@ -26,6 +26,7 @@ type Repository interface {
 	GetTasks(userId int) (tasks []volunteering.TasksDB, err error)
 	GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 	ShareTask(taskId int, share bool, userId int) (err error)
+	GetSharedTasks(userId int) (tasks []volunteering.Task, err error)
 
 	MarkAsDoneVolunteer(userId, taskId, trackedHours int) error
 	MarkAsDoneEmployer(userId, taskId, trackedHours int, done bool) error

@@ -32,13 +32,14 @@ func StartServer(app *Handler, port string) {
 		api.DELETE("/tasks", app.deleteTask)
 
 		api.POST("tasks/share", app.shareTask)
+		api.GET("tasks/shared", app.getSharedTasks)
 
 		api.POST("/done-volunteer", app.markAsDoneVolunteer)
 		api.POST("/done-employer", app.markAsDoneEmployer)
-		
+
+
 		// apply
 		// accept / deny
-		// getShared tasks
 		// statistic
 		// verified and unverified
 		// if verified, volunteer gets bonuses
