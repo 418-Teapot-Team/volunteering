@@ -2,18 +2,17 @@ package main
 
 import (
 	"github.com/BoryslavGlov/logrusx"
-	"github.com/subosito/gotenv"
 	"log"
 	"os"
-	app "volunteering/internal/app"
+	"volunteering/internal/app"
 	"volunteering/pkg/repository"
 )
 
 func main() {
 
-	if err := gotenv.Load(); err != nil {
-		log.Fatal(err)
-	}
+	//if err := gotenv.Load(); err != nil {
+	//	log.Println(err)
+	//}
 
 	logg, err := logrusx.New("budget-tracker")
 	if err != nil {
