@@ -55,3 +55,20 @@ func (db *dbSQL) GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 
 	return tasks, nil
 }
+
+func (db *dbSQL) ShareTask(taskId int, share bool, userId int) (err error) {
+	var task volunteering.Task
+	err = db.db.Where("id = ? AND user_id = ?", taskId, userId).First(&task).Error
+	if err != nil {
+		return
+	}
+
+	task.Shared = share
+
+	err = db.db.Save(&task).Error
+	if err != nil {
+		return
+	}
+
+	return nil
+}

@@ -29,6 +29,8 @@ func StartServer(app *Handler, port string) {
 		api.GET("/tasks", app.getUserTasks)
 		api.POST("/tasks", app.createTask)
 		api.DELETE("/tasks", app.deleteTask)
+
+		api.POST("tasks/share", app.shareTask)
 	}
 
 	router.Run(":" + port)
