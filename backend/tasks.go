@@ -18,7 +18,7 @@ type Task struct {
 	ProjectId    int       `json:"projectId" gorm:"column:project_id"`
 	Title        string    `json:"title" gorm:"column:title" binding:"required"`
 	Shared       bool      `json:"shared" gorm:"column:shared"`
-	EstimateTime int       `json:"estimateTime,omitempty" gorm:"column:estimate_time"`
+	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
 	Description  string    `json:"description" gorm:"column:description"`
 	CreatedAt    time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
