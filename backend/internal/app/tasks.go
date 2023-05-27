@@ -113,7 +113,7 @@ func (h *Handler) markAsDoneVolunteer(c *gin.Context) {
 func (h *Handler) markAsDoneEmployer(c *gin.Context) {
 	var input struct {
 		Id          int `json:"id"`
-		LoggedHours int `json:"loggedHours"`
+		LoggedHours int `json:"loggedHours,omitempty"`
 	}
 	var d bool
 	done := c.Query("done")
