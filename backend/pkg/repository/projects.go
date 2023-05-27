@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"log"
 	"volunteering"
 )
 
@@ -38,7 +39,9 @@ func (db *dbSQL) GetProjects(userId int) (projects []volunteering.Project, err e
 func (db *dbSQL) DeleteTaskProject(userId int, taskId int) (err error) {
 	tx := db.db.Begin()
 
-	err = tx.Where("id = ?", taskId).Where("user_id = ?", userId).Delete(&volunteering.Task{}).Error
+	log.Println("DeleteTaskProject", taskId, userId)
+
+	err = tx.Where("id = ? AND user_id = ?", taskId, userId).Delete(&volunteering.Task{}).Error
 	if err != nil {
 		tx.Rollback()
 		return err
