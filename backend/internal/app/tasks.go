@@ -80,3 +80,31 @@ func (h *Handler) getUserTasks(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) shareTask(c *gin.Context) {
+	var input struct {
+		Id    int  `json:"id"`
+		Share bool `json:"share"`
+	}
+
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusForbidden, err.Error())
+		return
+	}
+
+	if err = c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.rep.ShareTask(input.Id, input.Share, userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success",
+	})
+}
