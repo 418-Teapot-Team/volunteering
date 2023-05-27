@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"sync"
 	"time"
 	"volunteering"
 	"volunteering/pkg/repository"
@@ -20,7 +19,6 @@ type signInInput struct {
 func (h *Handler) signUp(c *gin.Context) {
 	var (
 		input volunteering.User
-		mu    sync.Mutex
 	)
 
 	if err := c.BindJSON(&input); err != nil {
@@ -30,7 +28,6 @@ func (h *Handler) signUp(c *gin.Context) {
 	input.Password = generatePasswordHash(input.Password)
 	input.CreatedAt = time.Now()
 	input.LastLogin = time.Now()
-	mu.Unlock()
 
 	err := h.rep.CreateUser(&input)
 	if err != nil {
