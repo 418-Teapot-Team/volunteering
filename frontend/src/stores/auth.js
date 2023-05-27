@@ -29,7 +29,7 @@ export default defineStore('auth', {
     },
 
     async whoAmI() {
-      const { data } = await HttpClient.get('api/who-am-i');
+      const { data } = await HttpClient.get('api/v1/who-am-i');
       this.user = data;
     },
   },
