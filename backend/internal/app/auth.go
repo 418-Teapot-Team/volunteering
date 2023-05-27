@@ -64,6 +64,27 @@ func (h *Handler) signIn(c *gin.Context) {
 	})
 }
 
+func (h *Handler) whoAmI(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusForbidden, err.Error())
+		return
+	}
+
+	user, err := h.rep.GetUserById(userId)
+	if err != nil || user.Id == 0 {
+		h.newErrorResponse(c, http.StatusNotFound, "user not found")
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"userId":    user.Id,
+		"firstName": user.FirstName,
+		"lastName":  user.LastName,
+		"email":     user.Email,
+	})
+}
+
 func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
