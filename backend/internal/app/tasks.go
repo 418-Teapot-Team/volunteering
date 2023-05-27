@@ -108,3 +108,22 @@ func (h *Handler) shareTask(c *gin.Context) {
 		"message": "Success",
 	})
 }
+
+func (h *Handler) getSharedTasks(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tasks, err := h.rep.GetSharedTasks(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": tasks,
+	})
+
+}

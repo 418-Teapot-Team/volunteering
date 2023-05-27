@@ -31,6 +31,7 @@ func StartServer(app *Handler, port string) {
 		api.DELETE("/tasks", app.deleteTask)
 
 		api.POST("tasks/share", app.shareTask)
+		api.GET("tasks/shared", app.getSharedTasks)
 	}
 
 	router.Run(":" + port)

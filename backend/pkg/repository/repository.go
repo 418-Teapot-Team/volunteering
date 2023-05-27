@@ -26,6 +26,7 @@ type Repository interface {
 	GetTasks(userId int) (tasks []volunteering.TasksDB, err error)
 	GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 	ShareTask(taskId int, share bool, userId int) (err error)
+	GetSharedTasks(userId int) (tasks []volunteering.Task, err error)
 }
 
 type dbSQL struct {
