@@ -48,12 +48,12 @@ class HttpClient {
   }
 
   #handleError(error) {
+    console.log(error);
     const errorData = {
-      code: error.status,
+      code: error?.response?.status,
       message: error?.response?.data?.message ? error?.response?.data?.message : error.message,
       status: error.statusText,
     };
-    console.log(error.status == 403);
     if (error.status == 403) {
       localStorage.removeItem('auth-token');
     }
