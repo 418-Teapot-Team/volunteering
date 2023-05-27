@@ -22,6 +22,7 @@ type Repository interface {
 	// Tasks
 	CreateTask(input *volunteering.Task) (err error)
 	DeleteTask(taskId, userId int) (err error)
+	GetUserTasks(userId int) (tasks []volunteering.TasksDB, err error)
 }
 
 type dbSQL struct {
