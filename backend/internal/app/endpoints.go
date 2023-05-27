@@ -22,8 +22,11 @@ func StartServer(app *Handler, port string) {
 
 		api.GET("/projects", app.getProjects)
 		api.POST("/projects", app.createProject)
-		api.DELETE("/projects", app.deleteProject)
 
+		api.DELETE("/projects", app.deleteProject)
+		api.DELETE("/projects/task", app.deleteProjectTask)
+
+		api.GET("/tasks", app.getUserTasks)
 		api.POST("/tasks", app.createTask)
 		api.DELETE("/tasks", app.deleteTask)
 	}

@@ -61,3 +61,22 @@ func (h *Handler) deleteTask(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) getUserTasks(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tasks, err := h.rep.GetUserTasks(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": tasks,
+	})
+
+}

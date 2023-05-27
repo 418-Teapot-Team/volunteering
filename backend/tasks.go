@@ -20,3 +20,8 @@ type Task struct {
 	Description string    `json:"description" gorm:"column:description"`
 	CreatedAt   time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
+
+type TasksDB struct {
+	Project Project `json:"project" gorm:"foreignKey:ProjectID"`
+	Tasks   []Task  `json:"tasks" gorm:"foreignKey:ProjectID"`
+}
