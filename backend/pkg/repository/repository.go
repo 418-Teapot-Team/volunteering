@@ -115,18 +115,18 @@ func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) erro
 			}
 		}
 
-		return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
+		return db.db.Model(&volunteering.Task{}).Where("user_id = ? AND is_finished != true", userId).Where("id = ?", taskId).
 			Updates(map[string]interface{}{
 				"is_finished":   done,
 				"pending":       false,
-				"estimate_time": tracked + trackedHours.Hours,
-				"tracked_hours": tracked + trackedHours.Hours,
+				"tracked_hours": tracked,
 			}).Error
 	}
 	return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
 		Updates(map[string]interface{}{
-			"is_finished": done,
-			"pending":     false,
+			"is_finished":   done,
+			"pending":       true,
+			"tracked_hours": 0,
 		}).Error
 
 }
