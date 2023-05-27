@@ -32,6 +32,17 @@ func StartServer(app *Handler, port string) {
 
 		api.POST("tasks/share", app.shareTask)
 		api.GET("tasks/shared", app.getSharedTasks)
+
+		api.POST("/done-volunteer", app.markAsDoneVolunteer)
+		api.POST("/done-employer", app.markAsDoneEmployer)
+
+		// apply
+		// accept / deny
+		// statistic
+		// mark as done (points)
+		// verified and unverified
+		// if verified, volunteer gets bonuses
+
 	}
 
 	router.Run(":" + port)
