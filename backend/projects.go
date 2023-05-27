@@ -2,6 +2,15 @@ package volunteering
 
 import "time"
 
+const (
+	projectsTable = "projects"
+)
+
+func (Project) TableName() string {
+	return projectsTable
+
+}
+
 type Project struct {
 	ID          int       `json:"id,omitempty" gorm:"column:id"`
 	UserId      int       `json:"-" gorm:"column:user_id"`
