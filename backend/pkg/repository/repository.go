@@ -27,8 +27,9 @@ type Repository interface {
 	GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 	ShareTask(taskId int, share bool, userId int) (err error)
 	GetSharedTasks(userId int) (tasks []volunteering.Task, err error)
-	MarkAsDoneVolunteer(userId, taskId int) error
-	MarkAsDoneEmployer(userId, taskId int) error
+
+	MarkAsDoneVolunteer(userId, taskId, trackedHours int) error
+	MarkAsDoneEmployer(userId, taskId, trackedHours int, done bool) error
 }
 
 type dbSQL struct {
@@ -75,11 +76,10 @@ func (db *dbSQL) GetUserById(userId int) (user volunteering.User, err error) {
 	return user, nil
 }
 
-func (db *dbSQL) MarkAsDoneVolunteer(userId, taskId int) error {
+func (db *dbSQL) MarkAsDoneVolunteer(userId, taskId, tracked int) error {
 
 	var trackedHours struct {
-		TrackedHours int `gorm:"column:tracked_hours"`
-		Hours        int `gorm:"column:hours"`
+		Hours int `gorm:"column:hours"`
 	}
 
 	if err := db.db.Table("tasks").Select("tracked_hours, hours").Where("assignee = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
@@ -89,13 +89,31 @@ func (db *dbSQL) MarkAsDoneVolunteer(userId, taskId int) error {
 	return db.db.Model(&volunteering.Task{}).Where("assignee = ?", userId).Where("id = ?", taskId).
 		Updates(map[string]interface{}{
 			"pending":       true,
-			"tracked_hours": trackedHours.Hours + trackedHours.TrackedHours,
+			"tracked_hours": tracked,
 		}).Error
 }
 
-func (db *dbSQL) MarkAsDoneEmployer(userId, taskId int) error {
+func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) error {
+	var trackedHours struct {
+		Hours int `gorm:"column:hours"`
+	}
+
+	if err := db.db.Table("tasks").Select("tracked_hours, hours").Where("user_id = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
+		return err
+	}
+	if done {
+		return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
+			Updates(map[string]interface{}{
+				"is_finished":   done,
+				"pending":       false,
+				"hours":         tracked + trackedHours.Hours,
+				"tracked_hours": tracked + trackedHours.Hours,
+			}).Error
+	}
 	return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
 		Updates(map[string]interface{}{
-			"is_finished": true,
+			"is_finished": done,
+			"pending":     false,
 		}).Error
+
 }
