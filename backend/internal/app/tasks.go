@@ -83,7 +83,8 @@ func (h *Handler) getUserTasks(c *gin.Context) {
 
 func (h *Handler) markAsDoneVolunteer(c *gin.Context) {
 	var input struct {
-		Id int `json:"id"`
+		Id          int `json:"id"`
+		LoggedHours int `json:"loggedHours"`
 	}
 
 	userId, err := h.getUserId(c)
@@ -97,7 +98,7 @@ func (h *Handler) markAsDoneVolunteer(c *gin.Context) {
 		return
 	}
 
-	err = h.rep.MarkAsDoneVolunteer(userId, input.Id)
+	err = h.rep.MarkAsDoneVolunteer(userId, input.Id, input.LoggedHours)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -111,7 +112,18 @@ func (h *Handler) markAsDoneVolunteer(c *gin.Context) {
 
 func (h *Handler) markAsDoneEmployer(c *gin.Context) {
 	var input struct {
-		Id int `json:"id"`
+		Id          int `json:"id"`
+		LoggedHours int `json:"loggedHours"`
+	}
+	var d bool
+	done := c.Query("done")
+	if done == "" || done == "false" {
+		d = false
+	} else if done == "true" {
+		d = true
+	} else {
+		h.newErrorResponse(c, http.StatusBadRequest, "invalid parameter done")
+		return
 	}
 
 	userId, err := h.getUserId(c)
@@ -125,7 +137,7 @@ func (h *Handler) markAsDoneEmployer(c *gin.Context) {
 		return
 	}
 
-	err = h.rep.MarkAsDoneEmployer(userId, input.Id)
+	err = h.rep.MarkAsDoneEmployer(userId, input.Id, input.LoggedHours, d)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

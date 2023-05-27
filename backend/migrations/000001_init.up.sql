@@ -36,3 +36,13 @@ CREATE TABLE tasks
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (project_id) REFERENCES projects (id)
 );
+
+
+create table applies
+(
+    id              bigint auto_increment primary key,
+    task_id         bigint NOT NULL,
+    respond_user_id bigint not null,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_id) REFERENCES tasks (id)
+)
