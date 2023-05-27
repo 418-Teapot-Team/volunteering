@@ -23,6 +23,9 @@ func StartServer(app *Handler, port string) {
 		api.GET("/projects", app.getProjects)
 		api.POST("/projects", app.createProject)
 		api.DELETE("/projects", app.deleteProject)
+
+		api.POST("/tasks", app.createTask)
+		api.DELETE("/tasks", app.deleteTask)
 	}
 
 	router.Run(":" + port)

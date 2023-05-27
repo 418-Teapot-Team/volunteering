@@ -7,15 +7,21 @@ import (
 )
 
 type Repository interface {
+	// Auth
 	CreateUser(user *volunteering.User) (err error)
 	GetUserAuth(email, password string) (user volunteering.User, err error)
 	GetUserById(userId int) (user volunteering.User, err error)
 
 	UpdateLastLogin(userId int) error
 
+	// Projects
 	CreateProject(input *volunteering.Project) (err error)
 	DeleteProject(listId, userId int) (err error)
 	GetProjects(userId int) (projects []volunteering.Project, err error)
+
+	// Tasks
+	CreateTask(input *volunteering.Task) (err error)
+	DeleteTask(taskId, userId int) (err error)
 }
 
 type dbSQL struct {
