@@ -17,6 +17,7 @@ func StartServer(app *Handler, port string) {
 	}
 
 	api := router.Group("/api/v1", app.authMiddleware)
+	api.Use(CORSMiddleware())
 	{
 		api.GET("/who-am-i", app.whoAmI)
 
@@ -39,7 +40,6 @@ func StartServer(app *Handler, port string) {
 		// apply
 		// accept / deny
 		// statistic
-		// mark as done (points)
 		// verified and unverified
 		// if verified, volunteer gets bonuses
 

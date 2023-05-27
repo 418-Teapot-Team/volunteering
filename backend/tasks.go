@@ -20,7 +20,7 @@ type Task struct {
 	Shared       bool      `json:"shared" gorm:"column:shared"`
 	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
 	IsFinished   bool      `json:"is_finished" gorm:"column:is_finished"`
-	Description  string    `json:"description" gorm:"column:description"`
+	Description  string    `json:"description,omitempty" gorm:"column:description"`
 	CreatedAt    time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
 

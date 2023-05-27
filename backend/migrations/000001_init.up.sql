@@ -5,6 +5,8 @@ CREATE TABLE users
     last_name     varchar(255) not null,
     email         varchar(255) not null unique,
     password_hash varchar(255) not null,
+    verified      boolean   default false,
+    scores        int       default 0,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login    datetime     not null
 );
@@ -36,3 +38,13 @@ CREATE TABLE tasks
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (project_id) REFERENCES projects (id)
 );
+
+
+create table applies
+(
+    id              bigint auto_increment primary key,
+    task_id         bigint NOT NULL,
+    respond_user_id bigint not null,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_id) REFERENCES tasks (id)
+)
