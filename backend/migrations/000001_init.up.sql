@@ -21,13 +21,18 @@ CREATE TABLE projects
 
 CREATE TABLE tasks
 (
-    id          bigint auto_increment primary key,
-    user_id     bigint       NOT NULL,
-    project_id  bigint       NOT NULL,
-    title       varchar(255) NOT NULL,
-    description varchar(255) NULL,
-    shared      bool      default false,
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id            bigint auto_increment primary key,
+    user_id       bigint       NOT NULL,
+    project_id    bigint       NOT NULL,
+    title         varchar(255) NOT NULL,
+    description   varchar(255) NULL,
+    is_finished   bool      default false,
+    assignee      bigint    DEFAULT NULL,
+    pending       bool      default false,
+    tracked_hours int       DEFAULT 0,
+    hours         int          NOT NULL,
+    shared        bool      default false,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (project_id) REFERENCES projects (id)
 );

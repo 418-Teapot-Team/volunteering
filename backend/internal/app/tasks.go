@@ -81,6 +81,62 @@ func (h *Handler) getUserTasks(c *gin.Context) {
 
 }
 
+func (h *Handler) markAsDoneVolunteer(c *gin.Context) {
+	var input struct {
+		Id int `json:"id"`
+	}
+
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if err = c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.rep.MarkAsDoneVolunteer(userId, input.Id)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success",
+	})
+
+}
+
+func (h *Handler) markAsDoneEmployer(c *gin.Context) {
+	var input struct {
+		Id int `json:"id"`
+	}
+
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if err = c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.rep.MarkAsDoneEmployer(userId, input.Id)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success",
+	})
+
+}
+
 func (h *Handler) shareTask(c *gin.Context) {
 	var input struct {
 		Id    int  `json:"id"`
