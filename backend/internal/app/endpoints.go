@@ -19,6 +19,10 @@ func StartServer(app *Handler, port string) {
 	api := router.Group("/api/v1", app.authMiddleware)
 	{
 		api.GET("/who-am-i", app.whoAmI)
+
+		api.GET("/projects", app.getProjects)
+		api.POST("/projects", app.createProject)
+		api.DELETE("/projects", app.deleteProject)
 	}
 
 	router.Run(":" + port)

@@ -12,6 +12,10 @@ type Repository interface {
 	GetUserById(userId int) (user volunteering.User, err error)
 
 	UpdateLastLogin(userId int) error
+
+	CreateProject(input *volunteering.Project) (err error)
+	DeleteProject(listId, userId int) (err error)
+	GetProjects(userId int) (projects []volunteering.Project, err error)
 }
 
 type dbSQL struct {
