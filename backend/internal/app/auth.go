@@ -4,9 +4,9 @@ import (
 	"crypto/sha1"
 	"errors"
 	"fmt"
-	"github.com/BoryslavGlov/logrusx"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"sync"
 	"time"
 	"volunteering"
 	"volunteering/pkg/repository"
@@ -18,18 +18,19 @@ type signInInput struct {
 }
 
 func (h *Handler) signUp(c *gin.Context) {
-	var input volunteering.User
-
-	h.logg.Info("User trying to sign-in", logrusx.LogField{Key: "request", Value: fmt.Sprintf("%+v", c.Request)})
+	var (
+		input volunteering.User
+		mu    sync.Mutex
+	)
 
 	if err := c.BindJSON(&input); err != nil {
 		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-
 	input.Password = generatePasswordHash(input.Password)
 	input.CreatedAt = time.Now()
 	input.LastLogin = time.Now()
+	mu.Unlock()
 
 	err := h.rep.CreateUser(&input)
 	if err != nil {
