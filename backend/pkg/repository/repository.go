@@ -42,6 +42,7 @@ type Repository interface {
 
 	GetTimeStats(userId int) (data []volunteering.FinancialData, err error)
 	GetProjectStats(userId int) (data []volunteering.ProjectData, err error)
+	GetGeneralStats(userId int) (result *volunteering.StatResult, err error)
 }
 
 type dbSQL struct {

@@ -32,7 +32,7 @@ type Task struct {
 	IsFinished   bool       `json:"is_finished" gorm:"column:is_finished"`
 	Description  string     `json:"description,omitempty" gorm:"column:description"`
 	Pending      bool       `json:"pending" gorm:"column:pending"`
-	CreatedAt    time.Time  `json:"createdAt,omitempty" gorm:"column:created_at"`
+	CreatedAt    time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
 
 type TaskGetter struct {
@@ -64,4 +64,10 @@ type TasksDB struct {
 type FinancialData struct {
 	Date  string
 	Value float64
+}
+
+type StatResult struct {
+	Score       int
+	TaskAmount  int
+	HoursAmount int
 }
