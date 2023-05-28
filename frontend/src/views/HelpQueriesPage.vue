@@ -1,6 +1,6 @@
 <template>
   <section id="help_queries" class="flex flex-col gap-4">
-    <h1 class="text-6xl mb-4">Tasks</h1>
+    <h1 class="text-3xl p-6 lg:p-0 lg:text-6xl mb-4">Tasks</h1>
     <help-query
       v-for="item in sharedTasks"
       :myid="user.userId"

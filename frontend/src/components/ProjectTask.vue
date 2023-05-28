@@ -9,16 +9,16 @@
           <DoneIcon v-if="task?.is_finished" />
           <NotDoneIcon v-else />
         </div>
-        <span class="text-2xl"
+        <span class="md:text-2xl"
           >{{ task?.title }} |
           <span class="text-primary">{{ task?.estimate_time }} hrs.</span></span
         >
       </div>
-      <div class="flex flex-row gap-4 pt-2 pl-12">
+      <div class="flex flex-col md:flex-row gap-4 pt-2 md:pl-12 text-sm md:text-base">
         <div class="flex flex-col gap-2">
           <div>{{ getFormattedDate(task?.createdAt) }}</div>
         </div>
-        <div class="border-l-2 pl-3 pr-10">
+        <div class="border-l-2 pl-3 md:pr-10">
           {{ task?.description }}
         </div>
       </div>

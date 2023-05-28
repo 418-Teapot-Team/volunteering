@@ -1,24 +1,28 @@
 <template>
   <div class="w-full shadow-md border rouned-xl p-4 flex flex-col rounded-2xl">
-    <div class="flex flex-row justify-between mb-4">
+    <div class="flex flex-row justify-between mb-4 md:gap-0 gap-6">
       <div class="flex flex-col gap-2 items-center justify-center">
-        <span class="text-3xl"
+        <span class="text-sm md:text-3xl"
           >{{ task?.title }} |
           <span class="text-primary"
             >{{ task?.estimate_time }} hrs. - {{ task?.trackedHours }} hrs.</span
           ></span
         >
-        <span class="text-xl self-start">{{ task?.project?.title }}</span>
+        <span class="text-sm md:text-xl self-start">{{ task?.project?.title }}</span>
       </div>
       <div class="flex flex-col gap-2 items-end justify-center">
-        <span>{{ getFormattedDate(task?.createdAt) }}</span>
-        <span>{{ `${task?.user?.firstName} ${task?.user?.lastName}` }}</span>
+        <span class="text-xs md:text-base">{{ getFormattedDate(task?.createdAt) }}</span>
+        <span class="text-xs md:text-base">{{
+          `${task?.user?.firstName} ${task?.user?.lastName}`
+        }}</span>
       </div>
     </div>
-    <div class="text-gray-500">
+    <div class="text-gray-500 text-xs md:text-base">
       {{ task?.description }}
     </div>
-    <div class="flex flex-row justify-start gap-4 self-end items-center">
+    <div
+      class="flex flex-row justify-start gap-4 self-center md:self-end md:mt-0 mt-4 items-center"
+    >
       <div class="h-10 w-20 cursor-pointer">
         <app-button type="button" text="Approve" @onClick="approveTask" />
       </div>

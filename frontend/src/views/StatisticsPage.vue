@@ -1,13 +1,13 @@
 <template>
   <section id="statistics h-full">
-    <h1 class="text-6xl mb-4">Stats</h1>
+    <h1 class="text-3xl p-6 lg:p-0 lg:text-6xl mb-4">Stats</h1>
     <div class="w-full shadow-md border rounded-xl mb-4 h-80">
       <hours-chart
         :values="hoursData.map((item) => item.Value)"
         :bottomLabels="hoursData.map((item) => item.Date)"
       />
     </div>
-    <div class="flex flex-row justify-between w-full gap-8 h-96">
+    <div class="flex flex-row justify-between w-full gap-8 h-96 flex-wrap md:flex-nowrap">
       <projects-chart
         :values="projectsData.map((item) => item.Value)"
         :rightLabels="projectsData.map((item) => item.Title)"

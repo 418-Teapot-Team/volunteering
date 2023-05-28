@@ -1,8 +1,8 @@
 <template>
   <section id="projects">
     <div class="mb-10 flex flex-row justify-between items-center">
-      <h1 class="text-6xl">Projects</h1>
-      <div class="h-10 w-36">
+      <h1 class="text-3xl p-6 lg:p-0 lg:text-6xl">Projects</h1>
+      <div class="h-10 w-36 lg:mr-0 mr-4">
         <app-button text="Create project" @onClick="showAddPopup" type="button" />
       </div>
     </div>
