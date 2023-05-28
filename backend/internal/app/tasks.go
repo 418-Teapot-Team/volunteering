@@ -20,6 +20,7 @@ func (h *Handler) createTask(c *gin.Context) {
 		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
+	//log.Printf("input: %v", input)
 
 	input.UserId = userId
 	input.CreatedAt = time.Now()
@@ -185,6 +186,25 @@ func (h *Handler) getSharedTasks(c *gin.Context) {
 	}
 
 	tasks, err := h.rep.GetSharedTasks(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": tasks,
+	})
+
+}
+
+func (h *Handler) getTimeStats(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tasks, err := h.rep.GetTimeStats(userId)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

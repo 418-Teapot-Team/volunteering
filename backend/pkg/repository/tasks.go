@@ -80,3 +80,19 @@ func (db *dbSQL) GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, er
 
 	return tasks, nil
 }
+
+func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, err error) {
+	query := db.db.Table("tasks").
+		Select("DATE_FORMAT(closed_at, '%Y-%m') AS date, SUM tracked_hours AS value").
+		Where("user_id = ?", userId).
+		Group("date").
+		Order("STR_TO_DATE(date, \"%Y-%m\")")
+
+	err = query.Find(&data).Error
+
+	if err != nil {
+		return
+	}
+
+	return data, nil
+}

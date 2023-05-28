@@ -73,6 +73,11 @@ func (h *Handler) approveApply(c *gin.Context) {
 		return
 	}
 
+	if input.AppliedId == userId {
+		h.newErrorResponse(c, http.StatusForbidden, "You can't apply yourself")
+		return
+	}
+
 	err = h.rep.ApproveApply(userId, input.Id, input.AppliedId)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
