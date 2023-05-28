@@ -48,7 +48,7 @@ func (db *dbSQL) GetTasks(userId int) ([]volunteering.TasksDB, error) {
 }
 
 func (db *dbSQL) GetUserTasks(userId int) (tasks []volunteering.Task, err error) {
-	err = db.db.Order("created_at desc").Where("assignee = ?", userId).Preload("User").Find(&tasks).Error
+	err = db.db.Order("created_at desc").Where("assignee = ?", userId).Where("is_finished != ?", true).Preload("User").Find(&tasks).Error
 	if err != nil {
 		return
 	}
