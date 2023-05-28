@@ -8,7 +8,7 @@ func (AppliesGetter) TableName() string {
 	return appliesTable
 }
 
-func (UserGetter) TableName() string {
+func (AppliedUserGetter) TableName() string {
 	return "users"
 }
 
@@ -20,7 +20,7 @@ type Applies struct {
 	CreatedAt     time.Time `json:"createdAt" gorm:"column:created_at"`
 }
 
-type UserGetter struct {
+type AppliedUserGetter struct {
 	Id        int    `json:"id" gorm:"column:id"`
 	FirstName string `json:"firstName" binding:"required" gorm:"column:first_name"`
 	LastName  string `json:"lastName" binding:"required" gorm:"column:last_name"`

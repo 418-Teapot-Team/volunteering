@@ -57,8 +57,9 @@ func (h *Handler) getApplies(c *gin.Context) {
 
 func (h *Handler) approveApply(c *gin.Context) {
 
-	var Id struct {
-		Id int `json:"id"`
+	var input struct {
+		Id        int `json:"id"`
+		AppliedId int `json:"applied_id"`
 	}
 
 	userId, err := h.getUserId(c)
@@ -67,7 +68,12 @@ func (h *Handler) approveApply(c *gin.Context) {
 		return
 	}
 
-	err = h.rep.ApproveApply(userId, Id.Id)
+	if err = c.BindJSON(&input); err != nil {
+		h.newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.rep.ApproveApply(userId, input.Id, input.AppliedId)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -78,4 +84,3 @@ func (h *Handler) approveApply(c *gin.Context) {
 	})
 
 }
-
