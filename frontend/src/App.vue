@@ -20,6 +20,7 @@ import {
   Legend,
   Filler,
   ArcElement,
+  Colors,
 } from 'chart.js';
 
 ChartJS.register(
@@ -31,7 +32,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  Colors
 );
 
 export default {
