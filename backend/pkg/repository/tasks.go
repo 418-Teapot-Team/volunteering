@@ -105,6 +105,11 @@ func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, er
 //		score int
 //	}
 //
-//	db.db.
+//	err = db.db.Where("user_id = ?", userId).Model(&volunteering.Task{}).Select("score").Scan(&score{}).Error
+//	if err != nil {
+//		return
+//	}
 //
+//	// total task amount for user
+//	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Count(&data.TotalTasks).Error
 //}
