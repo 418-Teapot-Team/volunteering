@@ -64,8 +64,6 @@ func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 	}
 
 	err = tx.Model(&volunteering.Applies{}).
-		Where("respond_user_id !< ?", userId).
-		Where("applied_user_id != ?", applyId).
 		Where("task_id = ?", result.Id).
 		Delete(&volunteering.Applies{}).Error
 	if err != nil {
