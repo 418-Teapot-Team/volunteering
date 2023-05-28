@@ -9,7 +9,10 @@
           <DoneIcon v-if="task?.is_finished" />
           <NotDoneIcon v-else />
         </div>
-        <span class="text-2xl">{{ task?.title }} - {{ task?.estimate_time }} hrs.</span>
+        <span class="text-2xl"
+          >{{ task?.title }} |
+          <span class="text-primary">{{ task?.estimate_time }} hrs.</span></span
+        >
       </div>
       <div class="flex flex-row gap-4 pt-2 pl-12">
         <div class="flex flex-col gap-2">

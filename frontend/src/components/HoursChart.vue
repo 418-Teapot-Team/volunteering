@@ -20,16 +20,16 @@ export default {
         labels: this.bottomLabels,
         datasets: [
           {
-            borderColor: '#1c1c21',
-            backgroundColor: '#1c1c211A',
-            pointerBackgroundColor: '#1c1c21',
+            // borderColor: '#1c1c21',
+            // backgroundColor: '#1c1c211A',
+            // pointerBackgroundColor: '#1c1c21',
             fill: true,
             data: this.values,
             tension: 0.2,
             borderWidth: 2,
             pointRadius: 3,
-            pointBorderColor: '#1c1c21',
-            pointBackgroundColor: '#1c1c21',
+            // pointBorderColor: '#1c1c21',
+            // pointBackgroundColor: '#1c1c21',
           },
         ],
       };
@@ -42,6 +42,9 @@ export default {
         maintainAspectRatio: false,
         plugins: {
           legend: null,
+          colors: {
+            forceOverride: true,
+          },
         },
       },
     };

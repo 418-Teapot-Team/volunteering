@@ -39,6 +39,13 @@
         >
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
+          to="/waiting"
+          active-class="border-b-2 border-b-white"
+          exact
+          >Waiting for approval</RouterLink
+        >
+        <RouterLink
+          class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/stats"
           active-class="border-b-2 border-b-white"
           exact
