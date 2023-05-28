@@ -1,5 +1,5 @@
 <template>
-  <dev
+  <div
     class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40 flex justify-center items-center z-10"
   >
     <div class="w-96 h-fit bg-white shadow-sm rounded-2xl p-4">
@@ -38,10 +38,10 @@
           ></vee-field>
           <ErrorMessage name="description" class="text-red-500 text-xs" />
         </div>
-        <div class="w-full h-12"><app-button type="submit" text="Craete" /></div>
+        <div class="w-full h-12"><app-button type="submit" text="Create" /></div>
       </vee-form>
     </div>
-  </dev>
+  </div>
 </template>
 
 <script>

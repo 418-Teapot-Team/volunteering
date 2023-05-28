@@ -1,12 +1,12 @@
 <template>
   <section id="help_queries" class="flex flex-col gap-4">
-    <h1 class="text-6xl mb-4">Tasks</h1>
-    <help-query v-for="item in sharedTasks" :key="item.id" :task="item" />
+    <h1 class="text-6xl mb-4">My tasks</h1>
+    <my-task v-for="item in myTasks" :key="item.id" :task="item" />
   </section>
 </template>
 
 <script>
-import HelpQuery from '@/components/HelpQuery.vue';
+import MyTask from '@/components/MyTask.vue';
 import useTasksStore from '@/stores/tasks';
 import { mapState, mapActions } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -14,18 +14,18 @@ import { useToast } from 'vue-toastification';
 const toast = useToast();
 
 export default {
-  name: 'HelpQueriesPage',
+  name: 'MyTasks',
   components: {
-    HelpQuery,
+    MyTask,
   },
   computed: {
-    ...mapState(useTasksStore, ['sharedTasks']),
+    ...mapState(useTasksStore, ['myTasks']),
   },
   methods: {
-    ...mapActions(useTasksStore, ['getSharedTasks']),
+    ...mapActions(useTasksStore, ['getMyTasks']),
     async initialLoad() {
       try {
-        await this.getSharedTasks();
+        await this.getMyTasks();
       } catch (e) {
         toast.error(e?.messages);
       }

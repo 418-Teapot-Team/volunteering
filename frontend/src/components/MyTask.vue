@@ -16,15 +16,29 @@
     <div class="text-gray-500">
       {{ task?.description }}
     </div>
-    <div class="h-10 w-40 self-end">
-      <app-button text="Apply" type="button" />
+    <div class="flex flex-row justify-start gap-4 self-end items-center">
+      <div class="h-10 w-10 cursor-pointer">
+        <DoneIcon v-if="task?.is_finished" />
+        <NotDoneIcon v-else />
+      </div>
+      <div class="h-10 w-10 cursor-pointer">
+        <delete-icon />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import DeleteIcon from '@/components/icons/DeleteIcon.vue';
+import DoneIcon from '@/components/icons/DoneIcon.vue';
+import NotDoneIcon from '@/components/icons/NotDoneIcon.vue';
 export default {
-  name: 'HelpQuery',
+  name: 'MyTask',
+  components: {
+    DeleteIcon,
+    DoneIcon,
+    NotDoneIcon,
+  },
   props: ['task'],
   methods: {
     getFormattedDate(dateRow) {
