@@ -24,6 +24,7 @@ Moreover, you will be able to share your public profile, so everyone can see you
     * Approve or Deny the fact task is finished
 * Help others by taking their tasks
     * Get points for your activity and achievements from verified volunteering organizations
+* Adaptive design for all the devices
 
 **Team**:
 - [Roman Skok](https://github.com/romesk) - backend
