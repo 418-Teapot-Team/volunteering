@@ -34,15 +34,15 @@ type Task struct {
 }
 
 type TaskGetter struct {
-	Id           int       `json:"id,omitempty" gorm:"column:id"`
-	UserId       int       `json:"-" gorm:"column:user_id"`
-	User         User      `json:"user" gorm:"foreignKey:UserId"`
-	ProjectId    int       `json:"projectId" gorm:"column:project_id"`
-	Project      Project   `json:"project" gorm:"foreignKey:ProjectId"`
-	Title        string    `json:"title" gorm:"column:title" binding:"required"`
-	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
-	Description  string    `json:"description,omitempty" gorm:"column:description"`
-	CreatedAt    time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
+	Id           int        `json:"id,omitempty" gorm:"column:id"`
+	UserId       int        `json:"-" gorm:"column:user_id"`
+	User         UserGetter `json:"user" gorm:"foreignKey:UserId"`
+	ProjectId    int        `json:"projectId" gorm:"column:project_id"`
+	Project      Project    `json:"project" gorm:"foreignKey:ProjectId"`
+	Title        string     `json:"title" gorm:"column:title" binding:"required"`
+	EstimateTime int        `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
+	Description  string     `json:"description,omitempty" gorm:"column:description"`
+	CreatedAt    time.Time  `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
 
 type TasksDB struct {
