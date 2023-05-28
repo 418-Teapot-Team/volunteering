@@ -37,6 +37,8 @@ func StartServer(app *Handler, port string) {
 		api.POST("/done-volunteer", app.markAsDoneVolunteer)
 		api.POST("/done-employer", app.markAsDoneEmployer)
 
+		api.GET("/applies", app.getApplies)
+		api.POST("/apply", app.applyToTask)
 
 		// apply
 		// accept / deny
