@@ -22,10 +22,10 @@ type Task struct {
 	ID        int     `json:"id,omitempty" gorm:"column:id"`
 	UserId    int     `json:"-" gorm:"column:user_id"`
 	Assignee  *int    `json:"-" gorm:"column:assignee"`
-	ProjectId int     `json:"-" gorm:"column:project_id"`
-	Project   Project `json:"project" gorm:"foreignKey:ProjectId"`
+	ProjectId int     `json:"projectId,omitempty" gorm:"column:project_id"`
+	Project   Project `json:"project,omitempty" gorm:"foreignKey:ProjectId"`
 
-	Title        string    `json:"title" gorm:"column:title" binding:"required"`
+	Title        string    `json:"title" gorm:"column:title"`
 	Shared       bool      `json:"shared" gorm:"column:shared"`
 	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
 	IsFinished   bool      `json:"is_finished" gorm:"column:is_finished"`
@@ -39,7 +39,7 @@ type TaskGetter struct {
 	User         UserGetter `json:"user" gorm:"foreignKey:UserId"`
 	ProjectId    int        `json:"projectId" gorm:"column:project_id"`
 	Project      Project    `json:"project" gorm:"foreignKey:ProjectId"`
-	Title        string     `json:"title" gorm:"column:title" binding:"required"`
+	Title        string     `json:"title" gorm:"column:title"`
 	EstimateTime int        `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
 	Description  string     `json:"description,omitempty" gorm:"column:description"`
 	CreatedAt    time.Time  `json:"createdAt,omitempty" gorm:"column:created_at"`
@@ -50,4 +50,9 @@ type TasksDB struct {
 	ID        int     `json:"-" gorm:"column:id"`
 	Project   Project `json:"project" gorm:"foreignKey:ProjectID"`
 	Task      []Task  `json:"tasks" gorm:"foreignKey:ID"`
+}
+
+type FinancialData struct {
+	Date  string
+	Value float64
 }

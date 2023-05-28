@@ -37,6 +37,8 @@ type Repository interface {
 	MakeApply(input *volunteering.Applies) (err error)
 	GetAllApplies(userId int) (applies []volunteering.AppliesGetter, err error)
 	ApproveApply(userId, Id, applyId int) error
+
+	GetTimeStats(userId int) (data []volunteering.FinancialData, err error)
 }
 
 type dbSQL struct {
