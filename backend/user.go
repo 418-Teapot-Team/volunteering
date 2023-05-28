@@ -28,7 +28,7 @@ type User struct {
 type UserGetter struct {
 	Id        int    `json:"userId" gorm:"column:id"`
 	Verified  bool   `json:"verified" gorm:"column:verified"`
-	FirstName string `json:"firstName" binding:"required" gorm:"column:first_name"`
-	LastName  string `json:"lastName" binding:"required" gorm:"column:last_name"`
-	Email     string `json:"email" binding:"required" gorm:"column:email"`
+	FirstName string `json:"firstName" gorm:"column:first_name"`
+	LastName  string `json:"lastName" gorm:"column:last_name"`
+	Email     string `json:"email" gorm:"column:email"`
 }
