@@ -26,17 +26,22 @@ func (db *dbSQL) DeleteTask(taskId, userId int) (err error) {
 	return tx.Commit().Error
 }
 
-func (db *dbSQL) GetTasks(userId int) (tasks []volunteering.TasksDB, err error) {
+func (db *dbSQL) GetTasks(userId int) ([]volunteering.TasksDB, error) {
+	var tasks []volunteering.TasksDB
 
-	err = db.db.Order("created_at desc").Where("user_id = ?", userId).
-		Preload("Project").
-		Preload("Task").
-		Preload("Task.Project").
-		Find(&tasks).Error
+	projects, err := db.GetProjects(userId)
 	if err != nil {
-		return
+		return tasks, err
 	}
 
+	for _, project := range projects {
+		var slice []volunteering.Task
+		db.db.Where("project_id = ?", project.ID).Where("user_id = ?", userId).
+			Preload("Project").
+			Find(&slice)
+
+		tasks = append(tasks, volunteering.TasksDB{Project: project, Task: slice})
+	}
 	return tasks, nil
 
 }
