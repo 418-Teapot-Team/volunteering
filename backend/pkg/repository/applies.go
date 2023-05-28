@@ -60,5 +60,11 @@ func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 		return err
 	}
 
+	err = tx.Model(&volunteering.Applies{}).Where("respond_user_id =! ? AND applied_user_id =! ?", userId, applyId).Where("task_id = ?", result.Id).Delete(&volunteering.Applies{}).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
 	return tx.Commit().Error
 }
