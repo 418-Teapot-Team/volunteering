@@ -63,3 +63,9 @@ type FinancialData struct {
 	Date  string
 	Value float64
 }
+
+type StatResult struct {
+	Score       int
+	TaskAmount  int
+	HoursAmount int
+}

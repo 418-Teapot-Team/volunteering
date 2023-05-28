@@ -99,17 +99,42 @@ func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, er
 	return data, nil
 }
 
-//func (db *dbSQL) GetGeneralStats(userId int) (data []volunteering.TaskData, err error) {
-//
-//	type score struct {
-//		score int
-//	}
-//
-//	err = db.db.Where("user_id = ?", userId).Model(&volunteering.Task{}).Select("score").Scan(&score{}).Error
-//	if err != nil {
-//		return
-//	}
-//
-//	// total task amount for user
-//	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Count(&data.TotalTasks).Error
-//}
+func (db *dbSQL) GetGeneralStats(userId int) (result *volunteering.StatResult, err error) {
+
+	type scoreStruct struct {
+		scores int
+	}
+
+	scor := new(scoreStruct)
+
+	type taskAmount struct {
+		total int
+	}
+
+	tasks := new(taskAmount)
+
+	type hoursAmount struct {
+		total int
+	}
+
+	hours := new(hoursAmount)
+
+	err = db.db.Where("id = ?", userId).Model(&volunteering.User{}).Select("scores").Scan(&scor.scores).Error
+	if err != nil {
+		return
+	}
+
+	// total task amount for user
+	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Select("count(*) as total").Find(&tasks.total).Error
+	if err != nil {
+		return
+	}
+
+	// total tracked hours for user
+	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Select("sum(tracked_hours) as total").Find(&hours.total).Error
+	if err != nil {
+		return
+	}
+
+	return &volunteering.StatResult{Score: scor.scores, TaskAmount: tasks.total, HoursAmount: hours.total}, nil
+}
