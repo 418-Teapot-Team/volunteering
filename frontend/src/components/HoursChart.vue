@@ -1,5 +1,5 @@
 <template>
-  <Line :data="dataset" :options="options" class="pb-2 scale-75 xl:scale-100" />
+  <Line :data="dataset" :options="options" class="pb-2 scale-90 md:scale-100" />
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <section id="applies" class="flex flex-col gap-4">
-    <h1 class="text-6xl mb-4">Applies</h1>
+    <h1 class="text-3xl p-6 lg:p-0 lg:text-6xl mb-4">Applies</h1>
     <apply-item v-for="item in applies" :key="item.id" :apply="item" @onApproval="approve" />
   </section>
 </template>

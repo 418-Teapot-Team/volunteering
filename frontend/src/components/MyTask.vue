@@ -2,7 +2,7 @@
   <div class="w-full shadow-md border rouned-xl p-4 flex flex-col rounded-2xl">
     <div class="flex flex-row justify-between mb-4">
       <div class="flex flex-col gap-2 items-center justify-center">
-        <span class="text-3xl"
+        <span class="text-xl md:text-3xl"
           >{{ task?.title }} |
           <span class="text-primary">{{ task?.estimate_time }} hrs.</span></span
         >
@@ -16,7 +16,9 @@
     <div class="text-gray-500">
       {{ task?.description }}
     </div>
-    <div class="flex flex-row justify-start gap-4 self-end items-center">
+    <div
+      class="flex flex-row justify-start gap-8 md:gap-4 self-center md:self-end md:mt-0 mt-4 items-center"
+    >
       <div class="h-10 w-20 cursor-pointer">
         <app-button type="button" text="Finish" @onClick="showHoursPopup = true" />
       </div>
