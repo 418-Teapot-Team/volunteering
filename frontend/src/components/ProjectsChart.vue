@@ -1,8 +1,7 @@
 <template>
   <div
-    class="h-full bg-white p-2 shadow-sm rounded-2xl flex flex-col justify-center items-center gap-5"
+    class="h-full w-full bg-white p-2 rounded-2xl flex flex-col justify-center items-center gap-5"
   >
-    <!-- <span class="text-black text-3xl first-letter:capitalize">{{ title }}</span> -->
     <Pie :options="options" :data="dataset" />
   </div>
 </template>
@@ -17,7 +16,6 @@ export default {
   props: {
     rightLabels: Array,
     values: Array,
-    // title: String,
   },
   computed: {
     dataset() {
@@ -26,8 +24,7 @@ export default {
         labels: this.rightLabels,
         datasets: [
           {
-            backgroundColor: this.values.map((item) => item.hash),
-            data: this.values.map((item) => item.value),
+            data: this.values,
           },
         ],
       };
@@ -39,6 +36,9 @@ export default {
         plugins: {
           legend: {
             position: 'right',
+          },
+          colors: {
+            forceOverride: true,
           },
         },
       };

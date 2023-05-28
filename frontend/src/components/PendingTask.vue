@@ -4,7 +4,9 @@
       <div class="flex flex-col gap-2 items-center justify-center">
         <span class="text-3xl"
           >{{ task?.title }} |
-          <span class="text-primary">{{ task?.estimate_time }} hrs.</span></span
+          <span class="text-primary"
+            >{{ task?.estimate_time }} hrs. - {{ task?.trackedHours }} hrs.</span
+          ></span
         >
         <span class="text-xl self-start">{{ task?.project?.title }}</span>
       </div>
@@ -18,31 +20,23 @@
     </div>
     <div class="flex flex-row justify-start gap-4 self-end items-center">
       <div class="h-10 w-20 cursor-pointer">
-        <app-button type="button" text="Finish" @onClick="showHoursPopup = true" />
+        <app-button type="button" text="Approve" @onClick="approveTask" />
       </div>
       <div class="h-10 w-10 cursor-pointer" @click="onDismissTask">
         <delete-icon />
       </div>
     </div>
   </div>
-  <hours-popup @onSubmit="finishTask" @onClose="closePopup" v-if="showHoursPopup" />
 </template>
 
 <script>
 import DeleteIcon from '@/components/icons/DeleteIcon.vue';
-import HoursPopup from '@/components/HoursPopup.vue';
 export default {
-  name: 'MyTask',
+  name: 'PendingTask',
   components: {
     DeleteIcon,
-    HoursPopup,
   },
   props: ['task'],
-  data() {
-    return {
-      showHoursPopup: false,
-    };
-  },
   methods: {
     getFormattedDate(dateRow) {
       const date = new Date(dateRow);
@@ -53,8 +47,8 @@ export default {
     closePopup() {
       this.showHoursPopup = false;
     },
-    finishTask(values) {
-      this.$emit('onFinishTask', { ...values, id: this.task?.id });
+    approveTask(values) {
+      this.$emit('onApproveTask', { ...values, id: this.task?.id });
       this.showHoursPopup = false;
     },
     onDismissTask() {

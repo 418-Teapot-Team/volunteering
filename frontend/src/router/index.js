@@ -49,6 +49,12 @@ const router = createRouter({
       component: () => import('@/views/AppliesPage.vue'),
     },
     {
+      path: '/waiting',
+      name: 'waiting',
+      meta: { layout: 'main' },
+      component: () => import('@/views/WaitingForAprovalPage.vue'),
+    },
+    {
       path: '/stats',
       name: 'stats',
       meta: { layout: 'main' },

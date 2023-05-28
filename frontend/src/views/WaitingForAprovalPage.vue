@@ -1,18 +1,18 @@
 <template>
   <section id="help_queries" class="flex flex-col gap-4">
-    <h1 class="text-6xl mb-4">My tasks</h1>
-    <my-task
-      v-for="item in myTasks"
+    <h1 class="text-6xl mb-4">Pending tasks</h1>
+    <pending-task
+      v-for="item in pendingTasks"
       :key="item.id"
       :task="item"
-      @onFinishTask="onFinishTask"
+      @onApproveTask="onApproveTask"
       @onDismissTask="onDismissTask"
     />
   </section>
 </template>
 
 <script>
-import MyTask from '@/components/MyTask.vue';
+import PendingTask from '@/components/PendingTask.vue';
 import useTasksStore from '@/stores/tasks';
 import { mapState, mapActions } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -20,30 +20,30 @@ import { useToast } from 'vue-toastification';
 const toast = useToast();
 
 export default {
-  name: 'MyTasks',
+  name: 'WaitingForAproval',
   components: {
-    MyTask,
+    PendingTask,
   },
   computed: {
-    ...mapState(useTasksStore, ['myTasks']),
+    ...mapState(useTasksStore, ['pendingTasks']),
   },
   methods: {
-    ...mapActions(useTasksStore, ['getMyTasks', 'finishTask', 'dismissTask']),
+    ...mapActions(useTasksStore, ['getPendingTasks', 'approveTask', 'denyTask']),
     async initialLoad() {
       try {
-        await this.getMyTasks();
+        await this.getPendingTasks();
       } catch (e) {
         toast.error(e?.messages);
       }
     },
-    async onFinishTask(values) {
+    async onApproveTask(values) {
       const payload = {
         id: values.id,
         hours: values.hours,
       };
       try {
-        await this.finishTask(payload);
-        await this.getMyTasks();
+        await this.approveTask(payload);
+        await this.getPendingTasks();
       } catch (e) {
         toast.error(e?.message);
       }
@@ -53,8 +53,8 @@ export default {
         id: values.id,
       };
       try {
-        await this.dismissTask(payload);
-        await this.getMyTasks();
+        await this.denyTask(payload);
+        await this.getPendingTasks();
       } catch (e) {
         toast.error(e?.message);
       }

@@ -23,8 +23,9 @@ export default {
     ...mapActions(useTasksStore, ['getApplies', 'approveApply']),
     async approve(values) {
       try {
-        this.approveApply(values);
-        this.getApplies();
+        await this.approveApply(values);
+        await this.getApplies();
+        toast.success('Task successfully aproved!');
       } catch (e) {
         toast.error(e?.message);
       }
