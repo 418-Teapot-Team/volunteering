@@ -36,6 +36,18 @@ const router = createRouter({
       meta: { layout: 'main' },
       component: () => import('@/views/HelpQueriesPage.vue'),
     },
+    {
+      path: '/my-tasks',
+      name: 'myTasks',
+      meta: { layout: 'main' },
+      component: () => import('@/views/MyTasks.vue'),
+    },
+    {
+      path: '/stats',
+      name: 'stats',
+      meta: { layout: 'main' },
+      component: () => import('@/views/StatisticsPage.vue'),
+    },
   ],
 });
 
