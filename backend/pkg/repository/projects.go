@@ -2,6 +2,7 @@ package repository
 
 import (
 	"log"
+	"time"
 	"volunteering"
 )
 
@@ -48,4 +49,20 @@ func (db *dbSQL) DeleteTaskProject(userId int, taskId int) (err error) {
 	}
 
 	return tx.Commit().Error
+}
+
+func (db *dbSQL) GetProjectStats(userId int) (data []volunteering.ProjectData, err error) {
+	err = db.db.Table("projects").
+		Select("projects.title AS title, SUM(tasks.tracked_hours) AS value").
+		Joins("LEFT JOIN tasks ON projects.id = tasks.project_id").
+		Where("tasks.user_id = ?", userId).
+		Where("projects.created_at >= ?", time.Now().AddDate(0, -1, 0)).
+		Group("projects.title").
+		Scan(&data).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }

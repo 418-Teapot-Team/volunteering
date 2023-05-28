@@ -107,3 +107,22 @@ func (h *Handler) deleteProjectTask(c *gin.Context) {
 		"result": "Success",
 	})
 }
+
+func (h *Handler) getProjectStats(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	projects, err := h.rep.GetProjectStats(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": projects,
+	})
+
+}

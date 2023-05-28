@@ -18,3 +18,8 @@ type Project struct {
 	Description string    `json:"description" gorm:"column:description"`
 	CreatedAt   time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
+
+type ProjectData struct {
+	Title string
+	Value float64
+}
