@@ -14,7 +14,7 @@ func (db *dbSQL) MakeApply(input *volunteering.Applies) (err error) {
 }
 
 func (db *dbSQL) GetAllApplies(userId int) (applies []volunteering.AppliesGetter, err error) {
-	err = db.db.Order("created_at desc").Where("respond_user_id = ?", userId).
+	err = db.db.Order("created_at desc").Where("respond_user_id = ? AND accepted = false", userId).
 		Preload("Task").
 		Preload("UserGetter").
 		Preload("Task.Project").
@@ -28,7 +28,10 @@ func (db *dbSQL) GetAllApplies(userId int) (applies []volunteering.AppliesGetter
 
 func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 	tx := db.db.Begin()
-	err = tx.Model(volunteering.Applies{}).Where("respond_user_id = ? AND applied_user_id = ?", userId, applyId).Where("id = ?", Id).Update("accepted", true).Error
+	err = tx.Model(volunteering.Applies{}).
+		Where("respond_user_id = ? AND applied_user_id = ?", userId, applyId).
+		Where("id = ?", Id).
+		Update("accepted", true).Error
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -56,7 +59,11 @@ func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 		return err
 	}
 
-	err = tx.Model(&volunteering.Applies{}).Where("respond_user_id != ? AND applied_user_id != ?", userId, applyId).Where("task_id = ?", result.Id).Delete(&volunteering.Applies{}).Error
+	err = tx.Model(&volunteering.Applies{}).
+		Where("respond_user_id !< ?", userId).
+		Where("applied_user_id != ?", applyId).
+		Where("task_id = ?", result.Id).
+		Delete(&volunteering.Applies{}).Error
 	if err != nil {
 		tx.Rollback()
 		return err
