@@ -39,6 +39,7 @@ type Repository interface {
 	ApproveApply(userId, Id, applyId int) error
 
 	GetTimeStats(userId int) (data []volunteering.FinancialData, err error)
+	GetProjectStats(userId int) (data []volunteering.ProjectData, err error)
 }
 
 type dbSQL struct {
