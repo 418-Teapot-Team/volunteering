@@ -43,6 +43,12 @@ const router = createRouter({
       component: () => import('@/views/MyTasks.vue'),
     },
     {
+      path: '/applies',
+      name: 'applies',
+      meta: { layout: 'main' },
+      component: () => import('@/views/AppliesPage.vue'),
+    },
+    {
       path: '/stats',
       name: 'stats',
       meta: { layout: 'main' },

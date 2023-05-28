@@ -12,26 +12,36 @@
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/search-for-tasks"
+          active-class="border-b-2 border-b-white"
+          exact
           >Search for tasks</RouterLink
         >
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/projects"
+          active-class="border-b-2 border-b-white"
+          exact
           >Projects</RouterLink
         >
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/my-tasks"
+          active-class="border-b-2 border-b-white"
+          exact
           >My Tasks</RouterLink
         >
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
-          to="/stats"
+          to="/applies"
+          active-class="border-b-2 border-b-white"
+          exact
           >Applies</RouterLink
         >
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/stats"
+          active-class="border-b-2 border-b-white"
+          exact
           >Statistics</RouterLink
         >
       </div>

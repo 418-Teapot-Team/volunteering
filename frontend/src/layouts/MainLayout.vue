@@ -1,6 +1,6 @@
 <template>
   <app-header :fullname="`${user.firstName} ${user.lastName}`" class="mb-10" />
-  <main class="container m-auto">
+  <main class="container m-auto pb-6">
     <router-view />
   </main>
 </template>
