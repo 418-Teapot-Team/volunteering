@@ -28,6 +28,7 @@ type Task struct {
 	Title        string     `json:"title" gorm:"column:title"`
 	Shared       bool       `json:"shared" gorm:"column:shared"`
 	EstimateTime int        `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
+	TrackedHours int        `json:"trackedHours,omitempty" gorm:"column:tracked_hours"`
 	IsFinished   bool       `json:"is_finished" gorm:"column:is_finished"`
 	Description  string     `json:"description,omitempty" gorm:"column:description"`
 	Pending      bool       `json:"pending" gorm:"column:pending"`
