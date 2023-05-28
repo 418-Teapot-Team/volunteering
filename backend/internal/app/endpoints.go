@@ -43,6 +43,7 @@ func StartServer(app *Handler, port string) {
 		api.POST("/applies/approve", app.approveApply)
 		api.POST("/applies/deny")
 
+
 		// apply
 		// accept / deny
 		// statistic

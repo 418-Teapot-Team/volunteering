@@ -5,6 +5,8 @@ CREATE TABLE users
     last_name     varchar(255) not null,
     email         varchar(255) not null unique,
     password_hash varchar(255) not null,
+    verified      boolean   default false,
+    scores        int       default 0,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login    datetime     not null
 );

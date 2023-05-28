@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"time"
 	"volunteering"
@@ -26,7 +27,7 @@ type Repository interface {
 	GetTasks(userId int) (tasks []volunteering.TasksDB, err error)
 	GetUserTasks(userId int) (tasks []volunteering.Task, err error)
 	ShareTask(taskId int, share bool, userId int) (err error)
-	GetSharedTasks(userId int) (tasks []volunteering.Task, err error)
+	GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, err error)
 
 	// marks
 	MarkAsDoneVolunteer(userId, taskId, trackedHours int) error
@@ -85,10 +86,10 @@ func (db *dbSQL) GetUserById(userId int) (user volunteering.User, err error) {
 func (db *dbSQL) MarkAsDoneVolunteer(userId, taskId, tracked int) error {
 
 	var trackedHours struct {
-		Hours int `gorm:"column:hours"`
+		Hours int `gorm:"column:estimate_time"`
 	}
 
-	if err := db.db.Table("tasks").Select("tracked_hours, hours").Where("assignee = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
+	if err := db.db.Table("tasks").Select("estimate_time").Where("assignee = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
 		return err
 	}
 
@@ -101,25 +102,37 @@ func (db *dbSQL) MarkAsDoneVolunteer(userId, taskId, tracked int) error {
 
 func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) error {
 	var trackedHours struct {
-		Hours int `gorm:"column:hours"`
+		Assignee int `gorm:"column:assignee"`
+		Hours    int `gorm:"column:estimate_time"`
 	}
 
-	if err := db.db.Table("tasks").Select("tracked_hours, hours").Where("user_id = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
+	if err := db.db.Table("tasks").Select("assignee, estimate_time").Where("user_id = ?", userId).Where("id = ?", taskId).First(&trackedHours).Error; err != nil {
 		return err
 	}
+
+	fmt.Println(trackedHours)
 	if done {
-		return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
+		user, _ := db.GetUserById(userId)
+		if trackedHours.Assignee != userId && trackedHours.Assignee != 0 && user.Verified {
+			err := db.db.Model(&volunteering.User{}).Where("id = ?", trackedHours.Assignee).Update("scores", tracked+trackedHours.Hours*2).Error
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+		}
+
+		return db.db.Model(&volunteering.Task{}).Where("user_id = ? AND is_finished != true", userId).Where("id = ?", taskId).
 			Updates(map[string]interface{}{
 				"is_finished":   done,
 				"pending":       false,
-				"hours":         tracked + trackedHours.Hours,
-				"tracked_hours": tracked + trackedHours.Hours,
+				"tracked_hours": tracked,
 			}).Error
 	}
 	return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
 		Updates(map[string]interface{}{
-			"is_finished": done,
-			"pending":     false,
+			"is_finished":   done,
+			"pending":       true,
+			"tracked_hours": 0,
 		}).Error
 
 }

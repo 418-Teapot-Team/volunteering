@@ -80,6 +80,7 @@ func (h *Handler) whoAmI(c *gin.Context) {
 		"firstName": user.FirstName,
 		"lastName":  user.LastName,
 		"email":     user.Email,
+		"verified":  user.Verified,
 	})
 }
 

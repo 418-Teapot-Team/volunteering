@@ -73,8 +73,8 @@ func (db *dbSQL) ShareTask(taskId int, share bool, userId int) (err error) {
 	return nil
 }
 
-func (db *dbSQL) GetSharedTasks(userId int) (tasks []volunteering.Task, err error) {
-	err = db.db.Order("created_at desc").Where("assignee is NULL AND shared=true").Find(&tasks).Error
+func (db *dbSQL) GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, err error) {
+	err = db.db.Order("created_at desc").Where("assignee is NULL AND shared=true AND is_finished=false").Preload("User").Preload("Project").Find(&tasks).Error
 	if err != nil {
 		return
 	}

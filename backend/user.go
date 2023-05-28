@@ -13,6 +13,7 @@ func (User) TableName() string {
 
 type User struct {
 	Id        int       `json:"-" gorm:"column:id"`
+	Verified  bool      `json:"verified,omitempty" gorm:"column:verified"`
 	FirstName string    `json:"firstName" binding:"required" gorm:"column:first_name"`
 	LastName  string    `json:"lastName" binding:"required" gorm:"column:last_name"`
 	Email     string    `json:"email" binding:"required" gorm:"column:email"`
