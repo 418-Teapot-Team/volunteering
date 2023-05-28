@@ -17,7 +17,7 @@
       {{ task?.description }}
     </div>
     <div class="h-10 w-40 self-end">
-      <app-button text="Apply" type="button" />
+      <app-button v-if="task?.user?.userId !== myid" text="Apply" type="button" @onClick="apply" />
     </div>
   </div>
 </template>
@@ -25,13 +25,16 @@
 <script>
 export default {
   name: 'HelpQuery',
-  props: ['task'],
+  props: ['task', 'myid'],
   methods: {
     getFormattedDate(dateRow) {
       const date = new Date(dateRow);
       return `${date.getDate()}.${
         date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
       }.${date.getFullYear()}`;
+    },
+    apply() {
+      this.$emit('onApply', { taskId: this.task.id, userId: this.task.user?.userId });
     },
   },
 };
