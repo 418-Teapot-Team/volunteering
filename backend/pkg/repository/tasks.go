@@ -84,7 +84,7 @@ func (db *dbSQL) GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, er
 
 func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, err error) {
 	query := db.db.Table("tasks").
-		Select("DATE_FORMAT(closed_at, '%Y-%m-%d') AS date, SUM(tracked_hours) AS value").
+		Select("DATE_FORMAT(closed_at, '%Y-%m-%d') AS date, IFNULL(SUM(tracked_hours),0) AS value").
 		Where("user_id = ?", userId).
 		Where("created_at >= ?", time.Now().AddDate(0, -1, 0)).
 		Group("date").
@@ -119,7 +119,7 @@ func (db *dbSQL) GetGeneralStats(userId int) (result *volunteering.StatResult, e
 
 	hours := new(hoursAmount)
 
-	err = db.db.Where("id = ?", userId).Model(&volunteering.User{}).Select("scores").Scan(&scor.scores).Error
+	err = db.db.Where("id = ?", userId).Model(&volunteering.User{}).Select("IFNULL(scores, 0) as scores").Scan(&scor.scores).Error
 	if err != nil {
 		return
 	}
@@ -131,7 +131,7 @@ func (db *dbSQL) GetGeneralStats(userId int) (result *volunteering.StatResult, e
 	}
 
 	// total tracked hours for user
-	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Select("sum(tracked_hours) as total").Find(&hours.total).Error
+	err = db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Select("IFNULL(sum(tracked_hours),0) as total").Find(&hours.total).Error
 	if err != nil {
 		return
 	}

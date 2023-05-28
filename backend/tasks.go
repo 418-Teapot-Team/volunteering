@@ -21,7 +21,6 @@ func (TaskGetter) TableName() string {
 type Task struct {
 	ID           int        `json:"id,omitempty" gorm:"column:id"`
 	UserId       int        `json:"-" gorm:"column:user_id"`
-	Assignee     *int       `json:"-" gorm:"column:assignee"`
 	ProjectId    int        `json:"projectId,omitempty" gorm:"column:project_id"`
 	Project      Project    `json:"project,omitempty" gorm:"foreignKey:ProjectId"`
 	User         UserGetter `json:"user,omitempty" gorm:"foreignKey:UserId"`
