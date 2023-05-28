@@ -110,7 +110,6 @@ func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) erro
 		return err
 	}
 
-	fmt.Println(trackedHours)
 	if done {
 		user, _ := db.GetUserById(userId)
 		if trackedHours.Assignee != userId && trackedHours.Assignee != 0 && user.Verified {
