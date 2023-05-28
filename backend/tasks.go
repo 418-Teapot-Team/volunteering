@@ -19,17 +19,18 @@ func (TaskGetter) TableName() string {
 }
 
 type Task struct {
-	ID           int       `json:"id,omitempty" gorm:"column:id"`
-	UserId       int       `json:"-" gorm:"column:user_id"`
-	Assignee     *int      `json:"assignee,omitempty" gorm:"column:assignee"`
-	ProjectId    int       `json:"projectId,omitempty" gorm:"column:project_id"`
-	Project      Project   `json:"project,omitempty" gorm:"foreignKey:ProjectId"`
-	User         UserGetter      `json:"user,omitempty" gorm:"foreignKey:UserId"`
-	Title        string    `json:"title" gorm:"column:title"`
-	Shared       bool      `json:"shared" gorm:"column:shared"`
-	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
-	IsFinished   bool      `json:"is_finished" gorm:"column:is_finished"`
-	Description  string    `json:"description,omitempty" gorm:"column:description"`
+	ID           int        `json:"id,omitempty" gorm:"column:id"`
+	UserId       int        `json:"-" gorm:"column:user_id"`
+	Assignee     *int       `json:"-" gorm:"column:assignee"`
+	ProjectId    int        `json:"projectId,omitempty" gorm:"column:project_id"`
+	Project      Project    `json:"project,omitempty" gorm:"foreignKey:ProjectId"`
+	User         UserGetter `json:"user,omitempty" gorm:"foreignKey:UserId"`
+	Title        string     `json:"title" gorm:"column:title"`
+	Shared       bool       `json:"shared" gorm:"column:shared"`
+	EstimateTime int        `json:"estimate_time,omitempty" gorm:"column:estimate_time"`
+	TrackedHours int        `json:"trackedHours,omitempty" gorm:"column:tracked_hours"`
+	IsFinished   bool       `json:"is_finished" gorm:"column:is_finished"`
+	Description  string     `json:"description,omitempty" gorm:"column:description"`
 	Pending      bool       `json:"pending" gorm:"column:pending"`
 	CreatedAt    time.Time `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
