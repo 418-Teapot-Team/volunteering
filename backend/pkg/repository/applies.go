@@ -1,6 +1,9 @@
 package repository
 
-import "volunteering"
+import (
+	"time"
+	"volunteering"
+)
 
 func (db *dbSQL) MakeApply(input *volunteering.Applies) (err error) {
 	tx := db.db.Begin()
@@ -48,6 +51,7 @@ func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 		Updates(map[string]interface{}{
 			"is_finished": false,
 			"pending":     true,
+			"closed_at":   time.Now(),
 			"assignee":    applyId,
 		}).Error
 
