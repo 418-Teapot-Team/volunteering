@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"time"
 	"volunteering"
 )
 
@@ -83,10 +84,11 @@ func (db *dbSQL) GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, er
 
 func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, err error) {
 	query := db.db.Table("tasks").
-		Select("DATE_FORMAT(closed_at, '%Y-%m') AS date, SUM tracked_hours AS value").
+		Select("DATE_FORMAT(closed_at, '%Y-%m-%d') AS date, SUM(tracked_hours) AS value").
 		Where("user_id = ?", userId).
+		Where("created_at >= ?", time.Now().AddDate(0, -1, 0)).
 		Group("date").
-		Order("STR_TO_DATE(date, \"%Y-%m\")")
+		Order("STR_TO_DATE(date, \"%Y-%m-%d\")")
 
 	err = query.Find(&data).Error
 
