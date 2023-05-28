@@ -13,12 +13,6 @@ const router = createRouter({
       component: HelpQueriesPage,
     },
     {
-      path: '/projects',
-      name: 'projects',
-      meta: { layout: 'main' },
-      component: () => import('@/views/ProjectsPage.vue'),
-    },
-    {
       path: '/sign-in',
       name: 'signIn',
       meta: { layout: 'empty' },
@@ -29,6 +23,18 @@ const router = createRouter({
       name: 'signUp',
       meta: { layout: 'empty' },
       component: RegisterPage,
+    },
+    {
+      path: '/projects',
+      name: 'projects',
+      meta: { layout: 'main' },
+      component: () => import('@/views/ProjectsPage.vue'),
+    },
+    {
+      path: '/search-for-tasks',
+      name: 'searchForTasks',
+      meta: { layout: 'main' },
+      component: () => import('@/views/HelpQueriesPage.vue'),
     },
   ],
 });
