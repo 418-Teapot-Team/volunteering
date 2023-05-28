@@ -29,8 +29,14 @@ type Repository interface {
 	ShareTask(taskId int, share bool, userId int) (err error)
 	GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, err error)
 
+	// marks
 	MarkAsDoneVolunteer(userId, taskId, trackedHours int) error
 	MarkAsDoneEmployer(userId, taskId, trackedHours int, done bool) error
+
+	// applies
+	MakeApply(input *volunteering.Applies) (err error)
+	GetAllApplies(userId int) (applies []volunteering.AppliesGetter, err error)
+	ApproveApply(userId, applyId int) error
 }
 
 type dbSQL struct {
