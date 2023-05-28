@@ -26,7 +26,7 @@ func (db *dbSQL) GetAllApplies(userId int) (applies []volunteering.AppliesGetter
 	return applies, nil
 }
 
-func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
+func (db *dbSQL) ApproveApply(applyId, Id, userId int) (err error) {
 	tx := db.db.Begin()
 	err = tx.Model(volunteering.Applies{}).Where("respond_user_id = ? AND applied_user_id = ?", userId, applyId).Where("id = ?", Id).Update("accepted", true).Error
 	if err != nil {
