@@ -48,7 +48,7 @@ func (db *dbSQL) GetTasks(userId int) ([]volunteering.TasksDB, error) {
 }
 
 func (db *dbSQL) GetUserTasks(userId int) (tasks []volunteering.Task, err error) {
-	err = db.db.Order("created_at desc").Where("assignee = ?", userId).Find(&tasks).Error
+	err = db.db.Order("created_at desc").Where("assignee = ?", userId).Preload("User").Find(&tasks).Error
 	if err != nil {
 		return
 	}
@@ -98,3 +98,13 @@ func (db *dbSQL) GetTimeStats(userId int) (data []volunteering.FinancialData, er
 
 	return data, nil
 }
+
+//func (db *dbSQL) GetGeneralStats(userId int) (data []volunteering.TaskData, err error) {
+//
+//	type score struct {
+//		score int
+//	}
+//
+//	db.db.
+//
+//}
