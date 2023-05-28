@@ -10,10 +10,6 @@ func (Task) TableName() string {
 	return tasksTable
 }
 
-func (TasksDB) TableName() string {
-	return tasksTable
-}
-
 func (TaskGetter) TableName() string {
 	return tasksTable
 }
@@ -46,8 +42,6 @@ type TaskGetter struct {
 }
 
 type TasksDB struct {
-	ProjectID int     `json:"-" gorm:"column:project_id"`
-	ID        int     `json:"-" gorm:"column:id"`
-	Project   Project `json:"project" gorm:"foreignKey:ProjectID"`
-	Task      []Task  `json:"tasks" gorm:"foreignKey:ID"`
+	Project Project `json:"project" gorm:"foreignKey:ProjectID"`
+	Tasks   []Task  `json:"tasks" gorm:"foreignKey:ProjectID"`
 }
