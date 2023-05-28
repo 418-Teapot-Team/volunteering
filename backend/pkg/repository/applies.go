@@ -18,6 +18,7 @@ func (db *dbSQL) MakeApply(input *volunteering.Applies) (err error) {
 
 func (db *dbSQL) GetAllApplies(userId int) (applies []volunteering.AppliesGetter, err error) {
 	err = db.db.Order("created_at desc").Where("respond_user_id = ? AND accepted = false", userId).
+		Where("is_finished != ?", true).
 		Preload("Task").
 		Preload("UserGetter").
 		Preload("Task.Project").
