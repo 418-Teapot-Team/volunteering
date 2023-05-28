@@ -143,7 +143,8 @@ func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) erro
 }
 
 func (db *dbSQL) SelectPendingTasks(userId int) (tasks []volunteering.Task, err error) {
-	err = db.db.Where("user_id = ?", userId).Where("pending = ?", true).Preload("Project").Preload("User").Find(&tasks).Error
+	err = db.db.Where("user_id = ?", userId).Where("pending = ?", true).Where("is_finished != ?", true).
+		Preload("Project").Preload("User").Find(&tasks).Error
 	if err != nil {
 		return tasks, err
 	}
