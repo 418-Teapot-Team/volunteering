@@ -47,11 +47,34 @@ func (h *Handler) getApplies(c *gin.Context) {
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
-
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"result": list,
+	})
+
+}
+
+func (h *Handler) approveApply(c *gin.Context) {
+
+	var Id struct {
+		Id int `json:"id"`
+	}
+
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusForbidden, err.Error())
+		return
+	}
+
+	err = h.rep.ApproveApply(userId, Id.Id)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success",
 	})
 
 }

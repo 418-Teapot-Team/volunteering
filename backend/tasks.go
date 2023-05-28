@@ -12,10 +12,12 @@ func (Task) TableName() string {
 }
 
 type Task struct {
-	ID           int       `json:"id,omitempty" gorm:"column:id"`
-	UserId       int       `json:"-" gorm:"column:user_id"`
-	Assignee     *int      `json:"-" gorm:"column:assignee"`
-	ProjectId    int       `json:"projectId" gorm:"column:project_id"`
+	ID        int     `json:"id,omitempty" gorm:"column:id"`
+	UserId    int     `json:"-" gorm:"column:user_id"`
+	Assignee  *int    `json:"-" gorm:"column:assignee"`
+	ProjectId int     `json:"-" gorm:"column:project_id"`
+	Project   Project `json:"project" gorm:"foreignKey:ProjectId"`
+
 	Title        string    `json:"title" gorm:"column:title" binding:"required"`
 	Shared       bool      `json:"shared" gorm:"column:shared"`
 	EstimateTime int       `json:"estimate_time,omitempty" gorm:"column:estimate_time"`

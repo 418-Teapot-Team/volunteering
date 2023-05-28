@@ -37,7 +37,6 @@ CREATE TABLE tasks
     FOREIGN KEY (project_id) REFERENCES projects (id)
 );
 
-
 create table applies
 (
     id              bigint auto_increment primary key,
@@ -49,4 +48,4 @@ create table applies
     FOREIGN KEY (task_id) REFERENCES tasks (id),
     FOREIGN KEY (respond_user_id) REFERENCES users (id),
     FOREIGN KEY (applied_user_id) REFERENCES users (id)
-)
+);
