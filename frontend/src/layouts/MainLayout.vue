@@ -4,7 +4,7 @@
     :verified="user.verified"
     class="mb-10"
   />
-  <main class="container m-auto pb-6">
+  <main class="container m-auto pb-6 mt-0 md:mt-6">
     <router-view />
   </main>
 </template>

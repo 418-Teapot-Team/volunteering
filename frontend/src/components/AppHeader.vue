@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="flex flex-row self-end justify-end items-center h-full gap-2">
-      <span>Welcome, {{ fullname }}!</span>
+      <span :class="verified ? 'text-blue-300' : ''">Welcome, {{ fullname }}!</span>
       <div class="h-full flex justify-center items-center cursor-pointer" @click="logout">
         <LogoutIcon />
       </div>
