@@ -3,10 +3,10 @@
     <div class="flex flex-row justify-between mb-4">
       <div class="flex flex-col gap-2 items-center justify-center">
         <span class="text-3xl"
-          >{{ task?.title }} |
-          <span class="text-primary">{{ task?.estimate_time }} hrs.</span></span
+          >{{ apply?.task?.title }} |
+          <span class="text-primary">{{ apply?.task?.estimate_time }} hrs.</span></span
         >
-        <span class="text-xl self-start">{{ task?.project?.title }}</span>
+        <span class="text-xl self-start">{{ apply?.task?.project?.title }}</span>
       </div>
       <div class="flex flex-col gap-2 items-end justify-center">
         <span>{{ getFormattedDate(task?.createdAt) }}</span>
@@ -24,15 +24,6 @@
 
 <script>
 export default {
-  name: 'HelpQuery',
-  props: ['task'],
-  methods: {
-    getFormattedDate(dateRow) {
-      const date = new Date(dateRow);
-      return `${date.getDate()}.${
-        date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
-      }.${date.getFullYear()}`;
-    },
-  },
+  name: 'Apply',
 };
 </script>

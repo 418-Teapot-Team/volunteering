@@ -27,6 +27,11 @@
         <RouterLink
           class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
           to="/stats"
+          >Applies</RouterLink
+        >
+        <RouterLink
+          class="border-b-2 border-transparent hover:border-b-white cursor-pointer transition duration-300"
+          to="/stats"
           >Statistics</RouterLink
         >
       </div>
