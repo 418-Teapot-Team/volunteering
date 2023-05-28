@@ -215,3 +215,22 @@ func (h *Handler) getTimeStats(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) getGeneralStats(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tasks, err := h.rep.GetTimeStats(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": tasks,
+	})
+
+}
