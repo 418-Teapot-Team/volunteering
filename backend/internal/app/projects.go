@@ -126,3 +126,21 @@ func (h *Handler) getProjectStats(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) selectPendingTasks(c *gin.Context) {
+	userId, err := h.getUserId(c)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	list, err := h.rep.SelectPendingTasks(userId)
+	if err != nil {
+		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"result": list,
+	})
+}

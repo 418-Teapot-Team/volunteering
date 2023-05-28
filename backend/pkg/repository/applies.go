@@ -53,7 +53,6 @@ func (db *dbSQL) ApproveApply(userId, Id, applyId int) (err error) {
 	err = tx.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", result.Id).
 		Updates(map[string]interface{}{
 			"is_finished": false,
-			"pending":     true,
 			"closed_at":   time.Now(),
 			"assignee":    applyId,
 		}).Error
