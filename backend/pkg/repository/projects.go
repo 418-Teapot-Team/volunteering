@@ -53,7 +53,7 @@ func (db *dbSQL) DeleteTaskProject(userId int, taskId int) (err error) {
 
 func (db *dbSQL) GetProjectStats(userId int) (data []volunteering.ProjectData, err error) {
 	err = db.db.Table("projects").
-		Select("projects.title AS title, SUM(tasks.tracked_hours) AS value").
+		Select("projects.title AS title, IFNULL(SUM(tasks.tracked_hours),0) AS value").
 		Joins("LEFT JOIN tasks ON projects.id = tasks.project_id").
 		Where("tasks.user_id = ?", userId).
 		Where("projects.created_at >= ?", time.Now().AddDate(0, -1, 0)).
