@@ -223,7 +223,7 @@ func (h *Handler) getGeneralStats(c *gin.Context) {
 		return
 	}
 
-	tasks, err := h.rep.GetTimeStats(userId)
+	tasks, err := h.rep.GetGeneralStats(userId)
 	if err != nil {
 		h.newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

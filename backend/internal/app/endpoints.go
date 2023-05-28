@@ -44,6 +44,7 @@ func StartServer(app *Handler, port string) {
 
 		api.GET("/get-stats", app.getTimeStats)
 		api.GET("/get-project-stats", app.getProjectStats)
+		api.GET("/get-general-stats", app.getGeneralStats)
 
 		// apply
 		// accept / deny
