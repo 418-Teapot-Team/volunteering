@@ -29,6 +29,8 @@ type Repository interface {
 	ShareTask(taskId int, share bool, userId int) (err error)
 	GetSharedTasks(userId int) (tasks []volunteering.TaskGetter, err error)
 
+	SelectPendingTasks(userId int) (tasks []volunteering.Task, err error)
+
 	// marks
 	MarkAsDoneVolunteer(userId, taskId, trackedHours int) error
 	MarkAsDoneEmployer(userId, taskId, trackedHours int, done bool) error
@@ -40,6 +42,7 @@ type Repository interface {
 
 	GetTimeStats(userId int) (data []volunteering.FinancialData, err error)
 	GetProjectStats(userId int) (data []volunteering.ProjectData, err error)
+	GetGeneralStats(userId int) (result *volunteering.StatResult, err error)
 }
 
 type dbSQL struct {
@@ -133,8 +136,16 @@ func (db *dbSQL) MarkAsDoneEmployer(userId, taskId, tracked int, done bool) erro
 	return db.db.Model(&volunteering.Task{}).Where("user_id = ?", userId).Where("id = ?", taskId).
 		Updates(map[string]interface{}{
 			"is_finished":   done,
-			"pending":       true,
+			"pending":       false,
 			"tracked_hours": 0,
 		}).Error
 
+}
+
+func (db *dbSQL) SelectPendingTasks(userId int) (tasks []volunteering.Task, err error) {
+	err = db.db.Where("user_id = ?", userId).Where("pending = ?", true).Preload("Project").Preload("User").Find(&tasks).Error
+	if err != nil {
+		return tasks, err
+	}
+	return tasks, nil
 }
