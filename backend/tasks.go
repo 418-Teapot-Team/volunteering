@@ -45,6 +45,12 @@ type TaskGetter struct {
 	CreatedAt    time.Time  `json:"createdAt,omitempty" gorm:"column:created_at"`
 }
 
+//type TasksDB struct {
+//	ProjectID int            `json:"-" gorm:"column:project_id"`
+//	Project   Project        `json:"project" gorm:"foreignKey:ProjectID"`
+//	Tasks     map[int][]Task `json:"tasks" gorm:"-"`
+//}
+
 type TasksDB struct {
 	ProjectID int     `json:"-" gorm:"column:project_id"`
 	ID        int     `json:"-" gorm:"column:id"`
